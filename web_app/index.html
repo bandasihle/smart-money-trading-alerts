@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Money Trading Alerts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .alerts-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .alert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alert-info {
+            flex: 1;
+        }
+        
+        .alert-pair {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .alert-direction {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .buy {
+            background-color: #4CAF50;
+        }
+        
+        .sell {
+            background-color: #f44336;
+        }
+        
+        .alert-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .alert-time {
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        .confidence {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .confidence.high {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .confidence.medium {
+            background-color: #ffa726;
+            color: white;
+        }
+        
+        .confidence.low {
+            background-color: #ffeb3b;
+            color: #333;
+        }
+        
+        .risk-level {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .risk-low {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .risk-medium {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .risk-high {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .no-alerts {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        
+        .refresh-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .refresh-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-active {
+            background-color: #4CAF50;
+        }
+        
+        .mobile-setup {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .setup-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .setup-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .setup-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .alert-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .alert-time {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Smart Money Trading Alerts</h1>
+            <p>Real-time signals for NAS100, GBPJPY, CADCHF</p>
+            <p><span class="status-indicator status-active"></span><span class="system-status">REAL TRADING MODE</span></p>
+        </div>
+        
+        <!-- Market Hours Status -->
+        <div class="mobile-setup">
+            <h3>📊 Market Status</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div data-pair="NAS100">
+                    <span class="status-indicator"></span> NAS100: <span id="nas100-status">Checking...</span>
+                </div>
+                <div data-pair="GBPJPY">
+                    <span class="status-indicator"></span> GBPJPY: <span id="gbpjpy-status">Checking...</span>
+                </div>
+                <div data-pair="CADCHF">
+                    <span class="status-indicator"></span> CADCHF: <span id="cadchf-status">Checking...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="alerts-today">0</div>
+                <div class="stat-label">Alerts Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pairs-monitored">3</div>
+                <div class="stat-label">Pairs Monitored</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-win-rate">47.2%</div>
+                <div class="stat-label">Average Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="last-scan">--:--</div>
+                <div class="stat-label">Last Scan</div>
+            </div>
+        </div>
+        
+        <div class="mobile-setup">
+            <h2 class="section-title">📱 Mobile Notifications Setup</h2>
+            <p>Get instant alerts on your phone when trading signals are detected:</p>
+            
+            <div id="config-form" style="margin: 20px 0;">
+                <div style="margin-bottom: 15px;">
+                    <label for="api-key" style="display: block; margin-bottom: 5px; font-weight: bold;">Pushover API Token:</label>
+                    <input type="text" id="api-key" placeholder="Enter your Pushover API token" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="user-token" style="display: block; margin-bottom: 5px; font-weight: bold;">Your User Key:</label>
+                    <input type="text" id="user-token" placeholder="Enter your Pushover user key" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="refresh-btn" onclick="configureMobile()" id="config-btn">💾 Save Configuration</button>
+                    <button class="refresh-btn" onclick="testNotification()" id="test-btn" disabled>📱 Test Alert</button>
+                </div>
+                <div id="config-status" style="margin-top: 10px; padding: 10px; border-radius: 5px; display: none;"></div>
+            </div>
+            
+            <ol class="setup-steps">
+                <li>Download <strong>Pushover</strong> app ($4.99) from <a href="https://pushover.net/clients" target="_blank">App Store/Google Play</a></li>
+                <li>Create free account at <a href="https://pushover.net" target="_blank">pushover.net</a> and note your <strong>User Key</strong></li>
+                <li>Create app token at <a href="https://pushover.net/apps/build" target="_blank">pushover.net/apps/build</a> (name: "Trading Alerts")</li>
+                <li>Enter both keys above and click "Save Configuration"</li>
+                <li>Click "Test Alert" to verify setup</li>
+            </ol>
+        </div>
+        
+        <div class="alerts-section">
+            <h2 class="section-title">🚨 Recent Trading Alerts</h2>
+            <button class="refresh-btn" onclick="refreshAlerts()" id="refresh-btn">🔄 Refresh Alerts</button>
+            
+            <div id="alerts-container">
+                <div class="no-alerts">
+                    No alerts yet. Monitoring will begin automatically...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Real data from backend API
+        let alertsData = {
+            alerts_today: 0,
+            recent_alerts: [],
+            last_scan: null,
+            system_status: 'LOADING...',
+            market_hours: {}
+        };
+        
+        function formatTime(timestamp) {
+            if (!timestamp) return '--:--';
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString();
+        }
+        
+        function formatPrice(price) {
+            return parseFloat(price).toFixed(4);
+        }
+        
+        function getConfidenceClass(confidence) {
+            if (confidence.includes('HIGH')) return 'high';
+            if (confidence.includes('MEDIUM')) return 'medium';
+            return 'low';
+        }
+        
+        function getRiskClass(risk) {
+            if (risk.includes('LOW')) return 'risk-low';
+            if (risk.includes('MEDIUM')) return 'risk-medium';
+            return 'risk-high';
+        }
+        
+        function renderAlerts() {
+            const container = document.getElementById('alerts-container');
+            
+            if (alertsData.recent_alerts.length === 0) {
+                container.innerHTML = '<div class="no-alerts">No alerts yet. Monitoring will begin automatically...</div>';
+                return;
+            }
+            
+            const alertsHtml = alertsData.recent_alerts.map(alert => `
+                <div class="alert-item">
+                    <div class="alert-info">
+                        <div class="alert-pair">
+                            ${alert.pair}
+                            <span class="alert-direction ${alert.direction.toLowerCase()}">${alert.direction}</span>
+                            <span class="confidence ${getConfidenceClass(alert.confidence)}">${alert.confidence}</span>
+                            <span class="risk-level ${getRiskClass(alert.risk_level)}">${alert.risk_level}</span>
+                        </div>
+                        <div class="alert-details">
+                            Entry: $${formatPrice(alert.entry_price)} | 
+                            Target: $${formatPrice(alert.target_profit)} | 
+                            Stop: $${formatPrice(alert.stop_loss)}
+                        </div>
+                    </div>
+                    <div class="alert-time">${formatTime(alert.timestamp)}</div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = alertsHtml;
+        }
+        
+        function updateStats() {
+            document.getElementById('alerts-today').textContent = alertsData.alerts_today;
+            document.getElementById('last-scan').textContent = formatTime(alertsData.last_scan);
+        }
+        
+        async function refreshAlerts() {
+            const btn = document.getElementById('refresh-btn');
+            btn.disabled = true;
+            btn.textContent = '🔄 Checking...';
+            
+            try {
+                // Real API call to Flask backend
+                const response = await fetch('/api/dashboard');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update with real data from backend
+                    alertsData = {
+                        alerts_today: data.data.total_alerts_today || 0,
+                        recent_alerts: data.data.recent_alerts || [],
+                        last_scan: data.data.last_scan,
+                        system_status: data.data.system_status,
+                        market_hours: data.data.market_hours
+                    };
+                    
+                    // Update system status
+                    const statusElement = document.querySelector('.system-status');
+                    if (statusElement) {
+                        statusElement.textContent = alertsData.system_status || 'REAL TRADING MODE';
+                    }
+                    
+                    // Update market hours indicators
+                    if (alertsData.market_hours) {
+                        Object.keys(alertsData.market_hours).forEach(pair => {
+                            const isOpen = alertsData.market_hours[pair];
+                            const indicator = document.querySelector(`[data-pair="${pair}"] .status-indicator`);
+                            const statusText = document.getElementById(`${pair.toLowerCase()}-status`);
+                            
+                            if (indicator) {
+                                indicator.className = `status-indicator ${isOpen ? 'status-active' : ''}`;
+                                indicator.title = isOpen ? 'Market Open' : 'Market Closed';
+                            }
+                            
+                            if (statusText) {
+                                statusText.textContent = isOpen ? 'Open 🟢' : 'Closed 🔴';
+                                statusText.style.color = isOpen ? '#4CAF50' : '#f44336';
+                            }
+                        });
+                    }
+                    
+                    renderAlerts();
+                    updateStats();
+                    
+                    console.log('✅ Real data updated:', alertsData);
+                } else {
+                    console.error('❌ API Error:', data.error);
+                }
+                
+            } catch (error) {
+                console.error('Error refreshing alerts:', error);
+                alert('Error refreshing alerts. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔄 Refresh Alerts';
+            }
+        }
+        
+        async function configureMobile() {
+            const apiKey = document.getElementById('api-key').value.trim();
+            const userToken = document.getElementById('user-token').value.trim();
+            const btn = document.getElementById('config-btn');
+            const status = document.getElementById('config-status');
+            
+            if (!apiKey || !userToken) {
+                showStatus('❌ Please enter both API token and User key', 'error');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = '💾 Saving...';
+            
+            try {
+                const response = await fetch('/api/config/mobile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        api_key: apiKey,
+                        user_token: userToken
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus('✅ Mobile notifications configured successfully!', 'success');
+                    document.getElementById('test-btn').disabled = false;
+                } else {
+                    showStatus(`❌ Configuration failed: ${data.error}`, 'error');
+                }
+                
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💾 Save Configuration';
+            }
+        }
+        
+        async function testNotification() {
+            const btn = document.getElementById('test-btn');
+            btn.disabled = true;
+            btn.textContent = '📱 Sending...';
+            
+            try {
+                const response = await fetch('/api/test/notification', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus('📱 Test notification sent! Check your phone.', 'success');
+                } else {
+                    showStatus(`❌ Test failed: ${data.error}`, 'error');
+                }
+                
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📱 Test Alert';
+            }
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('config-status');
+            status.textContent = message;
+            status.style.display = 'block';
+            status.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
+            status.style.color = type === 'success' ? '#155724' : '#721c24';
+            status.style.border = `1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'}`;
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Auto-refresh every 3 minutes
+        setInterval(refreshAlerts, 180000);
+        
+        // Initial load
+        updateStats();
+        renderAlerts();
+        
+        // Initial refresh after 2 seconds
+        setTimeout(refreshAlerts, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "smart-money-trading-alerts",
+  "version": "1.0.0",
+  "description": "Real-time trading alert system for smart money signals",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py",
+    "dev": "python app.py",
+    "build": "echo 'No build step needed for Python Flask app'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/smart-money-trading-alerts.git"
+  },
+  "keywords": [
+    "trading",
+    "alerts",
+    "smart-money",
+    "forex",
+    "stocks",
+    "notifications"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "flask": "^2.3.3",
+    "yfinance": "^0.2.18"
+  },
+  "engines": {
+    "python": "3.8+"
+  }
+}
