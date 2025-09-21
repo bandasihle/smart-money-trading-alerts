@@ -101,10 +101,13 @@ class MarketHoursChecker:
     def __init__(self):
         # Market hours in UTC
         self.market_hours = {
-            'NAS100': {'open': 14, 'close': 21},  # NYSE/NASDAQ: 9:30 AM - 4:00 PM EST
-            'US30': {'open': 14, 'close': 21},    # Same as NAS100
-            'GBPJPY': {'open': 0, 'close': 23},   # Forex: Sunday 5 PM EST - Friday 5 PM EST
-            'CADCHF': {'open': 0, 'close': 23}    # Forex: Same as GBPJPY
+            'NAS100': {'open': 14, 'close': 21},   # NYSE/NASDAQ: 9:30 AM - 4:00 PM EST
+            'US30': {'open': 14, 'close': 21},     # Same as NAS100
+            'GBPJPY': {'open': 0, 'close': 23},    # Forex: Sunday 5 PM EST - Friday 5 PM EST
+            'CADCHF': {'open': 0, 'close': 23},    # Forex: Same as GBPJPY
+            'USDJPY': {'open': 0, 'close': 23},    # Forex: Sunday 5 PM EST - Friday 5 PM EST
+            'EURCAD': {'open': 0, 'close': 23},    # Forex: Same as other forex pairs
+            'USDCAD': {'open': 0, 'close': 23}     # Forex: Same as other forex pairs
         }
     
     def is_market_open(self, pair_name: str) -> bool:
@@ -325,11 +328,15 @@ class TradingAlertSystem:
         self.positions = {}
         self.running = False
         
-        # Focus on profitable pairs from backtesting
+        # Focus on profitable pairs from backtesting + additional requested pairs
         self.monitored_pairs = {
-            'NAS100': '^IXIC',  # Best return: 5.2%
+            'NAS100': '^IXIC',     # Best return: 5.2%
+            'US30': '^DJI',        # Dow Jones Industrial Average
             'GBPJPY': 'GBPJPY=X',  # Best win rate: 66.7%
-            'CADCHF': 'CADCHF=X'   # Solid performer: 1.5%
+            'CADCHF': 'CADCHF=X',  # Solid performer: 1.5%
+            'USDJPY': 'USDJPY=X',  # Major forex pair
+            'EURCAD': 'EURCAD=X',  # EUR/CAD cross
+            'USDCAD': 'USDCAD=X'   # USD/CAD major pair
         }
         
         self.detector = InstitutionalPatternDetector()
@@ -427,11 +434,15 @@ class TradingAlertSystem:
             return "⚠️ LOW"
     
     def assess_risk_level(self, pair_name: str, signal: Dict) -> str:
-        """Assess risk level based on backtesting results"""
+        """Assess risk level based on backtesting results and pair characteristics"""
         risk_profiles = {
-            'NAS100': '🟡 MEDIUM',  # 50% win rate
-            'GBPJPY': '🟢 LOW',     # 66.7% win rate
-            'CADCHF': '🟡 MEDIUM'   # 50% win rate
+            'NAS100': '🟡 MEDIUM',   # 50% win rate
+            'US30': '🟡 MEDIUM',     # Similar to NAS100
+            'GBPJPY': '🟢 LOW',      # 66.7% win rate
+            'CADCHF': '🟡 MEDIUM',   # 50% win rate
+            'USDJPY': '🟢 LOW',      # Major pair, high liquidity
+            'EURCAD': '🟡 MEDIUM',   # Cross pair, moderate volatility
+            'USDCAD': '🟢 LOW'       # Major pair, stable
         }
         
         return risk_profiles.get(pair_name, '🔴 HIGH')

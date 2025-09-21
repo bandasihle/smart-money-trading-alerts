@@ -24,7 +24,7 @@ except ImportError as e:
     class TradingAlertSystem:
         def __init__(self):
             self.recent_alerts = []
-            self.monitored_pairs = ['NAS100', 'GBPJPY', 'CADCHF']
+            self.monitored_pairs = ['NAS100', 'US30', 'GBPJPY', 'CADCHF', 'USDJPY', 'EURCAD', 'USDCAD']
             print("📱 Mock Trading Alert System Initialized")
             
         def scan_all_pairs(self):

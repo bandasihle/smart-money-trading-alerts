@@ -24,7 +24,7 @@ except ImportError as e:
     class TradingAlertSystem:
         def __init__(self, **kwargs):
             self.recent_alerts = []
-            self.monitored_pairs = ['NAS100', 'GBPJPY', 'CADCHF']
+            self.monitored_pairs = ['NAS100', 'US30', 'GBPJPY', 'CADCHF', 'USDJPY', 'EURCAD', 'USDCAD']
             self.push_api_key = None
             self.user_tokens = []
             print("📱 Serverless Trading Alert System Initialized")
@@ -132,7 +132,7 @@ HTML_CONTENT = """
                 <div class="stat-label">Alerts Today</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">3</div>
+                <div class="stat-value" id="pairs-monitored">7</div>
                 <div class="stat-label">Pairs Monitored</div>
             </div>
             <div class="stat-card">
@@ -174,6 +174,7 @@ HTML_CONTENT = """
                 if (data.success) {
                     alertsData = data.data;
                     document.getElementById('alerts-today').textContent = alertsData.total_alerts_today || 0;
+                    document.getElementById('pairs-monitored').textContent = alertsData.monitored_pairs ? alertsData.monitored_pairs.length : 7;
                     document.getElementById('system-status').textContent = alertsData.system_status || 'LIVE SYSTEM';
                     document.getElementById('last-scan').textContent = new Date().toLocaleTimeString();
                     console.log('✅ Live system updated:', alertsData);
