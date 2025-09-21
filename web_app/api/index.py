@@ -1,17 +1,30 @@
 # Serverless-friendly Flask app for Vercel deployment
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify, render_template_string, request
 from flask_cors import CORS
 import json
 import os
 import sys
 import random
 from datetime import datetime
+import traceback
 
+# Create Flask app with proper configuration for Vercel
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["*"])
+
+# Configure Flask for serverless
+app.config['ENV'] = 'production'
+app.config['DEBUG'] = False
 
 # Import real trading system for serverless environment
 try:
+    import sys
+    import os
+    # Add current directory to path for imports
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    sys.path.insert(0, parent_dir)
+    
     from trading_system import TradingAlertSystem, MarketHoursChecker
     print("✅ REAL TRADING SYSTEM LOADED")
     REAL_SYSTEM = True
@@ -306,6 +319,17 @@ def test_notification():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/test')
+def test_endpoint():
+    """Simple test endpoint"""
+    return jsonify({
+        'message': '🚀 Smart Money Trading System - LIVE!',
+        'status': 'working',
+        'pairs': 7,
+        'real_system': REAL_SYSTEM,
+        'timestamp': datetime.now().isoformat()
+    })
+
 @app.route('/health')
 def health_check():
     """Health check endpoint"""
@@ -313,9 +337,30 @@ def health_check():
         'status': 'healthy',
         'environment': 'serverless',
         'timestamp': datetime.now().isoformat(),
-        'version': '2.0.0'
+        'version': '2.0.0',
+        'pairs_monitored': 7
     })
 
+# Vercel serverless handler
+def handler(request, response):
+    """Vercel serverless handler"""
+    try:
+        return app(request, response)
+    except Exception as e:
+        print(f"Handler error: {e}")
+        traceback.print_exc()
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
+
+# For Vercel, we need to expose the app
+# This is the entry point Vercel looks for
+if __name__ == '__main__':
+    app.run(debug=True)
+else:
+    # Export for Vercel
+    application = app
 # Vercel serverless handler
 def handler(request):
     return app(request.environ, lambda status, headers: None)

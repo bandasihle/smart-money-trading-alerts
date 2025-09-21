@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     }
   ],
   "routes": [
@@ -12,16 +15,21 @@
       "dest": "/api/index.py"
     },
     {
+      "src": "/health",
+      "dest": "/api/index.py"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.py"
     }
   ],
   "env": {
-    "PYTHONPATH": "/var/task"
+    "PYTHONPATH": "/var/task:/var/runtime"
   },
   "functions": {
     "api/index.py": {
-      "maxDuration": 10
+      "maxDuration": 30,
+      "memory": 1024
     }
   }
 }
