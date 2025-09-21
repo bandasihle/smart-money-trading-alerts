@@ -37,13 +37,34 @@ def get_real_market_data():
             cad_data = cad_response.json()
             forex_data['CADCHF'] = cad_data['rates'].get('CHF', 0.577)
         
-        # Add indices (approximate values)
-        forex_data['NAS100'] = 15847.5
-        forex_data['US30'] = 34652.3
+        # Get REAL index data from Alpha Vantage
+        alpha_vantage_api = "3UY3KV32MTFKMOWX"
+        
+        # QQQ for NASDAQ 100 (NAS100)
+        qqq_response = requests.get(f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=QQQ&apikey={alpha_vantage_api}", timeout=10)
+        if qqq_response.status_code == 200:
+            qqq_data = qqq_response.json()
+            if 'Global Quote' in qqq_data:
+                qqq_price = float(qqq_data['Global Quote']['05. price'])
+                forex_data['NAS100'] = qqq_price * 50  # QQQ tracks NDX at ~1/50th scale
+        
+        # DIA for Dow Jones (US30)
+        dia_response = requests.get(f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=DIA&apikey={alpha_vantage_api}", timeout=10)
+        if dia_response.status_code == 200:
+            dia_data = dia_response.json()
+            if 'Global Quote' in dia_data:
+                dia_price = float(dia_data['Global Quote']['05. price'])
+                forex_data['US30'] = dia_price * 100  # DIA tracks DJI at ~1/100th scale
+        
+        # Fallback values if APIs fail
+        if 'NAS100' not in forex_data:
+            forex_data['NAS100'] = 15847.5
+        if 'US30' not in forex_data:
+            forex_data['US30'] = 34652.3
         
         return forex_data
-    except:
-        # Fallback to demo values if API fails
+    except Exception as e:
+        # Fallback to demo values if all APIs fail
         return {
             'EURUSD': 1.1800, 'GBPJPY': 199.59, 'USDJPY': 147.94,
             'USDCAD': 1.3800, 'EURCAD': 1.6200, 'CADCHF': 0.5770,
