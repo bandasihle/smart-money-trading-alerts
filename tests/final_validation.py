@@ -6,10 +6,10 @@ Complete validation of all components with live market data
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from index import get_real_market_data
-from trading_system import InstitutionalPatternDetector, DayTradingSmartMoney
+from src.core.trading_system import InstitutionalPatternDetector, DayTradingSmartMoney
 import yfinance as yf
 import json
 from datetime import datetime

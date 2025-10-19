@@ -6,7 +6,7 @@ Test all components and verify yfinance data flow to Flask
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import time
 import requests
@@ -98,7 +98,7 @@ def test_pattern_detection():
     print("=" * 45)
     
     try:
-        from day_trading_optimizer import DayTradingPatternDetector, get_intraday_data
+        from src.strategies.day_trading_optimizer import DayTradingPatternDetector, get_intraday_data
         
         detector = DayTradingPatternDetector()
         
@@ -133,7 +133,7 @@ def test_session_optimizer():
     print("=" * 45)
     
     try:
-        from session_optimizer import TradingSessionOptimizer, get_market_timing_advice
+        from src.strategies.session_optimizer import TradingSessionOptimizer, get_market_timing_advice
         
         optimizer = TradingSessionOptimizer()
         

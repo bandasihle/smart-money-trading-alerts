@@ -6,9 +6,9 @@ Test the improved strategy with real historical data
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from balanced_strategy import BalancedDayTradingDetector, BalancedRiskManager
+from src.strategies.balanced_strategy import BalancedDayTradingDetector, BalancedRiskManager
 import yfinance as yf
 import pandas as pd
 import numpy as np

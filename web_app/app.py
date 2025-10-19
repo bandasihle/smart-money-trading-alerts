@@ -11,12 +11,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import our trading alert system
 try:
-    # Import from local trading_system.py file
-    from trading_system import TradingAlertSystem, MarketHoursChecker
-    print("✅ REAL TRADING SYSTEM LOADED")
+    # Import from src.core.trading_system
+    from src.core.trading_system import TradingAlertSystem, MarketHoursChecker
+    print("REAL TRADING SYSTEM LOADED")
     REAL_SYSTEM = True
 except ImportError as e:
-    print(f"⚠️ Import warning: Could not import real trading system: {e}")
+    print(f"Import warning: Could not import real trading system: {e}")
     print("Using mock classes for demonstration")
     REAL_SYSTEM = False
     

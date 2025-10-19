@@ -6,10 +6,10 @@ Tests the smart money trading system with actual live market data from yfinance
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from index import get_real_market_data
-from trading_system import InstitutionalPatternDetector, DayTradingSmartMoney
+from src.core.trading_system import InstitutionalPatternDetector, DayTradingSmartMoney
 import yfinance as yf
 import pandas as pd
 import numpy as np

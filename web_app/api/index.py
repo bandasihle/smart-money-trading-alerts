@@ -20,16 +20,17 @@ app.config['DEBUG'] = False
 try:
     import sys
     import os
-    # Add current directory to path for imports
+    # Add parent directory to path for imports
     current_dir = os.path.dirname(os.path.abspath(__file__))
     parent_dir = os.path.dirname(current_dir)
-    sys.path.insert(0, parent_dir)
+    grandparent_dir = os.path.dirname(parent_dir)
+    sys.path.insert(0, grandparent_dir)
     
-    from trading_system import TradingAlertSystem, MarketHoursChecker
-    print("✅ REAL TRADING SYSTEM LOADED")
+    from src.core.trading_system import TradingAlertSystem, MarketHoursChecker
+    print("REAL TRADING SYSTEM LOADED")
     REAL_SYSTEM = True
 except ImportError as e:
-    print(f"⚠️ Import warning: Could not import real trading system: {e}")
+    print(f"Import warning: Could not import real trading system: {e}")
     print("Using simplified classes for serverless deployment")
     REAL_SYSTEM = False
     

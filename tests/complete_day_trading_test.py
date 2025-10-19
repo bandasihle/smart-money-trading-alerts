@@ -6,11 +6,11 @@ Final validation of optimized day trading system with real market data
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from day_trading_optimizer import DayTradingPatternDetector, DayTradingRiskManager, get_intraday_data
-from session_optimizer import TradingSessionOptimizer, get_market_timing_advice
-from trading_system import DayTradingSmartMoney
+from src.strategies.day_trading_optimizer import DayTradingPatternDetector, DayTradingRiskManager, get_intraday_data
+from src.strategies.session_optimizer import TradingSessionOptimizer, get_market_timing_advice
+from src.core.trading_system import DayTradingSmartMoney
 from index import get_real_market_data
 import json
 from datetime import datetime
