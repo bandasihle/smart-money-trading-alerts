@@ -8,7 +8,7 @@ This project is a comprehensive day trading platform built around Smart Money Co
 
 ## Key Features
 - **Real Market Data**: 100% live data from yfinance (Yahoo Finance) for 7 trading pairs (6 forex, 1 index)
-- **Flask Web Dashboard**: Real-time price display and system status at http://127.0.0.1:5000
+- **Flask Web Dashboard**: Real-time price display and system status 
 - **SMC Pattern Detection**: Advanced algorithms for Fair Value Gaps, Order Blocks, Liquidity Sweeps, Breaker Blocks
 - **Day Trading Optimization**: 5-15 minute timeframes, session-aware strategies, dynamic risk management
 - **Session Analysis**: Trading session optimizer for London, NY, Tokyo, and overlaps
