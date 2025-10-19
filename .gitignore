@@ -30,9 +30,14 @@ Thumbs.db
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Environment variables
+# Environment variables - SECURITY CRITICAL
 .env
+.env.local
+.env.*.local
 config.env
+config*.json
+secrets.json
+credentials.json
 
 # Build artifacts
 build/
@@ -43,5 +48,53 @@ dist/
 *.tmp
 *.temp
 
-# Personal API keys (you'll add your actual keys via environment variables)
-config.json
+# Personal API keys and credentials
+# NEVER commit these files to version control
+api_keys.txt
+api_keys.json
+credentials/
+secrets/
+.credentials
+.secrets
+pushover_config.json
+trading_config.json
+
+# IDE secrets
+.vscode/settings.json
+.idea/runConfigurations/
+.idea/workspace.xml
+
+# OS files that might contain paths or metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter kernel credentials
+kernel.json
+jupyter_server_config.json
+
+# Python package credentials
+setup.cfg
+pyproject.toml (if contains secrets)
+
+# Test data with real credentials
+test_credentials.py
+test_secrets.py
+test_config.json
+
+# Local database backups
+*.db-journal
+*.sqlite-shm
+*.sqlite-wal
+
+# Vercel local development
+.vercel
+vercel.json (if it contains secrets - currently public, use env vars instead)
+
+# GitHub Actions secrets (shouldn't be in repo)
+.github/secrets/
+
+# Local configuration backups
+*.backup
+*.bak
+*.old
