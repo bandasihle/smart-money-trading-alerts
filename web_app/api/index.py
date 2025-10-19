@@ -101,10 +101,10 @@ except ImportError as e:
 # Initialize alert system
 if REAL_SYSTEM:
     alert_system = TradingAlertSystem(paper_trading=True)
-    print("🔥 REAL TRADING SYSTEM ACTIVE")
+    print("REAL TRADING SYSTEM ACTIVE")
 else:
     alert_system = TradingAlertSystem()
-    print("⚡ SERVERLESS SYSTEM ACTIVE")
+    print("SERVERLESS SYSTEM ACTIVE")
 
 # Serverless HTML content
 HTML_CONTENT = """
