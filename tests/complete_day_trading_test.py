@@ -18,9 +18,9 @@ from datetime import datetime
 def run_complete_day_trading_test():
     """Complete test of optimized day trading system"""
     
-    print("🚀 COMPLETE DAY TRADING SYSTEM TEST")
+    print("COMPLETE DAY TRADING SYSTEM TEST")
     print("=" * 60)
-    print(f"🕐 Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     # Initialize all components
     pattern_detector = DayTradingPatternDetector()
@@ -29,27 +29,27 @@ def run_complete_day_trading_test():
     trader = DayTradingSmartMoney(initial_capital=10000)
     
     # 1. Session Analysis
-    print(f"\n📅 STEP 1: SESSION ANALYSIS")
+    print(f"\nSTEP 1: SESSION ANALYSIS")
     print("-" * 30)
     
     session_summary = session_optimizer.get_session_summary()
     market_advice = get_market_timing_advice()
     
-    print(f"🌍 Current Session: {session_summary['session']}")
-    print(f"📊 Volatility Level: {session_summary['volatility']}")
-    print(f"🎯 Preferred Pairs: {', '.join(session_summary['preferred_pairs'][:3])}")
-    print(f"💰 Session Risk: {session_summary['risk_per_trade']:.1%} per trade")
+    print(f"Current Session: {session_summary['session']}")
+    print(f"Volatility Level: {session_summary['volatility']}")
+    print(f"Preferred Pairs: {', '.join(session_summary['preferred_pairs'][:3])}")
+    print(f"Session Risk: {session_summary['risk_per_trade']:.1%} per trade")
     
-    print(f"\n💡 Market Timing Advice:")
+    print(f"\nMarket Timing Advice:")
     for advice in market_advice[:2]:
         print(f"   {advice}")
     
     # 2. Live Data Feed Test
-    print(f"\n📡 STEP 2: LIVE DATA VALIDATION")
+    print(f"\nSTEP 2: LIVE DATA VALIDATION")
     print("-" * 30)
     
     live_prices = get_real_market_data()
-    print(f"✅ Live data for {len(live_prices)} pairs:")
+    print(f"Live data for {len(live_prices)} pairs:")
     
     # Focus on session-preferred pairs
     test_pairs = {
@@ -60,16 +60,16 @@ def run_complete_day_trading_test():
     
     for pair, symbol in test_pairs.items():
         if pair in live_prices:
-            print(f"   📊 {pair}: {live_prices[pair]:.4f}")
+            print(f"   {pair}: {live_prices[pair]:.4f}")
     
     # 3. Pattern Detection Test
-    print(f"\n🎯 STEP 3: OPTIMIZED PATTERN DETECTION")
+    print(f"\nSTEP 3: OPTIMIZED PATTERN DETECTION")
     print("-" * 30)
     
     day_trading_signals = {}
     
     for pair, symbol in test_pairs.items():
-        print(f"\n📈 Analyzing {pair}:")
+        print(f"\nAnalyzing {pair}:")
         
         # Get intraday data based on session volatility
         if session_summary['volatility'] in ['HIGH', 'VERY_HIGH']:
@@ -80,7 +80,7 @@ def run_complete_day_trading_test():
             timeframe = "15-minute"
         
         if len(data) >= 20:
-            print(f"   ✅ {len(data)} bars of {timeframe} data")
+            print(f"   {len(data)} bars of {timeframe} data")
             
             # Detect patterns
             raw_signals = pattern_detector.analyze_intraday_patterns(data)
@@ -96,9 +96,9 @@ def run_complete_day_trading_test():
                 optimized_signals.sort(key=lambda x: x['confidence'], reverse=True)
                 best_signal = optimized_signals[0]
                 
-                print(f"   🎯 Best Signal: {best_signal['pattern']} {best_signal['direction']}")
-                print(f"   📊 Confidence: {best_signal['confidence']:.1f}%")
-                print(f"   🎪 Session Match: {'✅' if best_signal.get('session_match') else '⚠️'}")
+                print(f"   Best Signal: {best_signal['pattern']} {best_signal['direction']}")
+                print(f"   Confidence: {best_signal['confidence']:.1f}%")
+                print(f"   Session Match: {'Yes' if best_signal.get('session_match') else 'No'}")
                 
                 day_trading_signals[pair] = {
                     'signal': best_signal,
@@ -106,23 +106,23 @@ def run_complete_day_trading_test():
                     'session_optimized': True
                 }
             else:
-                print(f"   📊 No patterns detected")
+                print(f"   No patterns detected")
         else:
-            print(f"   ❌ Insufficient data")
+            print(f"   Insufficient data")
     
     # 4. Risk Management Test
-    print(f"\n💰 STEP 4: DAY TRADING RISK MANAGEMENT")
+    print(f"\nSTEP 4: DAY TRADING RISK MANAGEMENT")
     print("-" * 30)
     
     session_risk = session_optimizer.get_session_risk_parameters()
-    print(f"📊 Session Risk Parameters:")
+    print(f"Session Risk Parameters:")
     print(f"   Risk per trade: {session_risk['risk_per_trade']:.1%}")
     print(f"   Max positions: {session_risk['max_positions']}")
     print(f"   Stop multiplier: {session_risk['stop_loss_multiplier']:.1f}x")
     print(f"   Profit multiplier: {session_risk['take_profit_multiplier']:.1f}x")
     
     # 5. Trade Execution Simulation
-    print(f"\n🔥 STEP 5: TRADE EXECUTION SIMULATION")
+    print(f"\nSTEP 5: TRADE EXECUTION SIMULATION")
     print("-" * 30)
     
     executed_trades = []
@@ -131,7 +131,7 @@ def run_complete_day_trading_test():
         signal = signal_data['signal']
         current_price = signal_data['current_price']
         
-        print(f"\n💼 Executing {pair} trade:")
+        print(f"\nExecuting {pair} trade:")
         
         # Calculate position with day trading risk management
         trade_setup = risk_manager.calculate_day_trading_position_size(
@@ -148,7 +148,7 @@ def run_complete_day_trading_test():
                 (trade_setup['take_profit'] - current_price) * session_risk['take_profit_multiplier']
             )
             
-            print(f"   ✅ Trade Setup:")
+            print(f"   Trade Setup:")
             print(f"      Direction: {signal['direction']}")
             print(f"      Entry: {current_price:.4f}")
             print(f"      Stop: {adjusted_setup['stop_loss']:.4f}")
@@ -162,26 +162,26 @@ def run_complete_day_trading_test():
                 'signal': signal
             })
         else:
-            print(f"   ⚠️ Trade rejected - risk limits exceeded")
+            print(f"   Trade rejected - risk limits exceeded")
     
     # 6. System Performance Summary
     print(f"\n" + "=" * 60)
-    print("📊 DAY TRADING SYSTEM PERFORMANCE")
+    print("DAY TRADING SYSTEM PERFORMANCE")
     print("=" * 60)
     
-    print(f"✅ Session Analysis: OPERATIONAL")
-    print(f"✅ Live Data Feeds: OPERATIONAL") 
-    print(f"✅ Pattern Detection: OPERATIONAL")
-    print(f"✅ Risk Management: OPERATIONAL")
-    print(f"✅ Trade Execution: OPERATIONAL")
+    print(f"Session Analysis: OPERATIONAL")
+    print(f"Live Data Feeds: OPERATIONAL") 
+    print(f"Pattern Detection: OPERATIONAL")
+    print(f"Risk Management: OPERATIONAL")
+    print(f"Trade Execution: OPERATIONAL")
     
-    print(f"\n🎯 SESSION OPTIMIZATION:")
+    print(f"\nSESSION OPTIMIZATION:")
     print(f"   Current Session: {session_summary['session']}")
     print(f"   Volatility: {session_summary['volatility']}")
     print(f"   Risk Adjusted: {session_risk['risk_per_trade']:.1%}")
     print(f"   Max Positions: {session_risk['max_positions']}")
     
-    print(f"\n📈 TRADING OPPORTUNITIES:")
+    print(f"\nTRADING OPPORTUNITIES:")
     print(f"   Signals Detected: {len(day_trading_signals)}")
     print(f"   Trades Executed: {len(executed_trades)}")
     
@@ -190,16 +190,16 @@ def run_complete_day_trading_test():
         print(f"   Total Risk: ${total_risk:.2f}")
         print(f"   Portfolio Risk: {(total_risk / trader.capital) * 100:.1f}%")
         
-        print(f"\n📋 ACTIVE TRADES:")
+        print(f"\nACTIVE TRADES:")
         for trade in executed_trades:
             setup = trade['setup']
             risk_reward = abs(setup['take_profit'] - setup['entry_price']) / abs(setup['entry_price'] - setup['stop_loss'])
             print(f"   {trade['pair']}: {trade['signal']['direction']} (R:R 1:{risk_reward:.1f})")
     
-    print(f"\n🚀 SYSTEM STATUS: FULLY OPTIMIZED FOR DAY TRADING!")
-    print(f"✅ Ready for live trading with real-time signals")
-    print(f"✅ Session-aware risk management active")
-    print(f"✅ Pattern detection optimized for intraday moves")
+    print(f"\nSYSTEM STATUS: FULLY OPTIMIZED FOR DAY TRADING!")
+    print(f"Ready for live trading with real-time signals")
+    print(f"Session-aware risk management active")
+    print(f"Pattern detection optimized for intraday moves")
     
     return {
         'session': session_summary,
@@ -212,5 +212,5 @@ if __name__ == "__main__":
     # Run complete system test
     results = run_complete_day_trading_test()
     
-    print(f"\n🎉 DAY TRADING OPTIMIZATION COMPLETE!")
-    print(f"🔥 Your system is now optimized for maximum day trading performance!")
+    print(f"\nDAY TRADING OPTIMIZATION COMPLETE!")
+    print(f"Your system is now optimized for maximum day trading performance!")

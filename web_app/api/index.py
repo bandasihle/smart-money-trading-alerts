@@ -60,7 +60,7 @@ except ImportError as e:
         def configure_pushover(self, api_key, user_tokens):
             self.push_api_key = api_key
             self.user_tokens = user_tokens if isinstance(user_tokens, list) else [user_tokens]
-            print(f"✅ Pushover configured for {len(self.user_tokens)} device(s)")
+            print(f"Pushover configured for {len(self.user_tokens)} device(s)")
             return True
             
         def send_mobile_notification(self, signal):
@@ -88,14 +88,14 @@ except ImportError as e:
                     })
                     
                     if response.status_code == 200:
-                        print(f"📱 Mobile notification sent: {signal['pair']} {signal['direction']}")
+                        print(f"Mobile notification sent: {signal['pair']} {signal['direction']}")
                         return True
                     else:
-                        print(f"❌ Failed to send notification: {response.text}")
+                        print(f"Failed to send notification: {response.text}")
                         return False
                         
             except Exception as e:
-                print(f"❌ Notification error: {e}")
+                print(f"Notification error: {e}")
                 return False
 
 # Initialize alert system
@@ -367,5 +367,5 @@ def handler(request):
     return app(request.environ, lambda status, headers: None)
 
 if __name__ == '__main__':
-    print("🚀 Starting Serverless Trading Alert System")
+    print("Starting Serverless Trading Alert System")
     app.run(debug=True, host='0.0.0.0', port=5000)

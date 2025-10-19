@@ -22,9 +22,9 @@ def dashboard():
     </head>
     <body>
         <div class="header">
-            <h1>🚀 Trading Alert System</h1>
+            <h1>Trading Alert System</h1>
             <div class="status">
-                <h2>✅ System Running Successfully!</h2>
+                <h2>System Running Successfully!</h2>
                 <p>Flask backend is operational</p>
                 <p>Time: """ + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + """</p>
             </div>
@@ -52,9 +52,9 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    print("🚀 Starting Trading Alert Test Server")
-    print("📱 Visit: http://localhost:5000")
-    print("🔍 API Test: http://localhost:5000/api/test")
-    print("❤️ Health: http://localhost:5000/health")
+    print("Starting Trading Alert Test Server")
+    print("Visit: http://localhost:5000")
+    print("API Test: http://localhost:5000/api/test")
+    print("Health: http://localhost:5000/health")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

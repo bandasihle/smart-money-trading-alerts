@@ -50,10 +50,10 @@ CORS(app)
 # Initialize alert system
 if REAL_SYSTEM:
     alert_system = TradingAlertSystem(paper_trading=True)
-    print("🔥 REAL TRADING SYSTEM ACTIVE")
+    print("REAL TRADING SYSTEM ACTIVE")
 else:
     alert_system = TradingAlertSystem()
-    print("⚠️ MOCK SYSTEM ACTIVE")
+    print("MOCK SYSTEM ACTIVE")
 
 @app.route('/')
 def dashboard():
@@ -219,10 +219,10 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    print("🚀 Starting Smart Money Trading Alert Web App")
-    print("📱 Dashboard: http://localhost:5000")
-    print("🔍 API Health: http://localhost:5000/health")
-    print("📊 API Dashboard: http://localhost:5000/api/dashboard")
+    print("Starting Smart Money Trading Alert Web App")
+    print("Dashboard: http://localhost:5000")
+    print("API Health: http://localhost:5000/health")
+    print("API Dashboard: http://localhost:5000/api/dashboard")
     
     # For development
     app.run(debug=True, host='0.0.0.0', port=5000)

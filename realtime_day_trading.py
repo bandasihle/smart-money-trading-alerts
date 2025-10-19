@@ -125,16 +125,16 @@ class RealTimeDayTradingSystem:
                                 print(f"   Size: {trade_setup['position_size']:.2f}")
                                 print(f"   R:R: 1:{trade_setup['risk_reward_ratio']:.1f}")
                             else:
-                                print(f"⚠️ {pair_name} - Signal found but risk limits exceeded")
+                                print(f"{pair_name} - Signal found but risk limits exceeded")
                         else:
-                            print(f"📊 {pair_name} - Signals filtered by session preference")
+                            print(f"{pair_name} - Signals filtered by session preference")
                     else:
-                        print(f"📊 {pair_name} - No patterns detected")
+                        print(f"{pair_name} - No patterns detected")
                 else:
-                    print(f"❌ {pair_name} - Insufficient data")
+                    print(f"{pair_name} - Insufficient data")
                     
             except Exception as e:
-                print(f"❌ {pair_name} - Error: {e}")
+                print(f"{pair_name} - Error: {e}")
             
             time.sleep(0.5)  # Avoid rate limits
         
@@ -177,9 +177,9 @@ class RealTimeDayTradingSystem:
     
     def run_continuous_monitoring(self, duration_minutes=60):
         """Run continuous signal monitoring for specified duration"""
-        print(f"🚀 STARTING REAL-TIME DAY TRADING MONITOR")
-        print(f"⏰ Duration: {duration_minutes} minutes")
-        print(f"🔄 Update interval: {self.update_interval} seconds")
+        print("STARTING REAL-TIME DAY TRADING MONITOR")
+        print(f"Duration: {duration_minutes} minutes")
+        print(f"Update interval: {self.update_interval} seconds")
         print("=" * 60)
         
         start_time = datetime.now()
@@ -203,7 +203,7 @@ class RealTimeDayTradingSystem:
                     print(f"   Confidence: {alert['confidence']:.1f}% | Pattern: {alert['pattern']}")
                 
                 if not signals:
-                    print(f"📊 No trading opportunities at this time")
+                    print("No trading opportunities at this time")
                 
                 print(f"\n⏰ Next scan in {self.update_interval} seconds...")
                 time.sleep(self.update_interval)
@@ -216,8 +216,8 @@ class RealTimeDayTradingSystem:
                 time.sleep(30)  # Wait before retrying
         
         # Summary
-        print(f"\n" + "=" * 60)
-        print(f"📊 MONITORING SESSION COMPLETE")
+        print("\n" + "=" * 60)
+        print("MONITORING SESSION COMPLETE")
         print(f"⏰ Duration: {(datetime.now() - start_time).total_seconds() / 60:.1f} minutes")
         print(f"🎯 Total alerts generated: {len(all_alerts)}")
         

@@ -352,10 +352,10 @@ class TradingAlertSystem:
         self.push_api_key = None
         self.user_tokens = []
         
-        print("📱 REAL TRADING ALERT SYSTEM INITIALIZED")
+        print("REAL TRADING ALERT SYSTEM INITIALIZED")
         print(f"Monitoring: {list(self.monitored_pairs.keys())}")
-        print("✅ Market hours checking enabled")
-        print("✅ Real smart money patterns")
+        print("Market hours checking enabled")
+        print("Real smart money patterns")
         
     def get_live_data(self, pair_name: str) -> Optional[pd.DataFrame]:
         """Get real-time data for a trading pair"""
@@ -380,7 +380,7 @@ class TradingAlertSystem:
             return data
             
         except Exception as e:
-            print(f"❌ Error fetching {pair_name}: {e}")
+            print(f"Error fetching {pair_name}: {e}")
             return None
     
     def check_trading_signal(self, pair_name: str) -> Optional[Dict]:
@@ -389,7 +389,7 @@ class TradingAlertSystem:
         # FIRST: Check if market is open
         if not self.market_checker.is_market_open(pair_name):
             next_open = self.market_checker.get_next_open_time(pair_name)
-            print(f"🕒 {pair_name} market closed. Next open: {next_open}")
+            print(f"{pair_name} market closed. Next open: {next_open}")
             return None
         
         data = self.get_live_data(pair_name)
@@ -474,7 +474,7 @@ class TradingAlertSystem:
         current_time = datetime.now()
         new_signals = []
         
-        print(f"🔍 Scanning pairs at {current_time.strftime('%H:%M:%S')}...")
+        print(f"Scanning pairs at {current_time.strftime('%H:%M:%S')}...")
         
         for pair_name in self.monitored_pairs.keys():
             # Rate limiting
@@ -482,11 +482,11 @@ class TradingAlertSystem:
             if last_check and (current_time - last_check).seconds < 60:
                 continue
             
-            print(f"📊 Checking {pair_name}...")
+            print(f"Checking {pair_name}...")
             
             signal = self.check_trading_signal(pair_name)
             if signal:
-                print(f"🚨 REAL SIGNAL DETECTED: {pair_name} {signal['direction']}")
+                print(f"REAL SIGNAL DETECTED: {pair_name} {signal['direction']}")
                 
                 # Store alert
                 self.store_alert(signal)
@@ -494,9 +494,9 @@ class TradingAlertSystem:
             else:
                 market_open = self.market_checker.is_market_open(pair_name)
                 if market_open:
-                    print(f"✅ {pair_name}: Market open, no signal")
+                    print(f"{pair_name}: Market open, no signal")
                 else:
-                    print(f"🕒 {pair_name}: Market closed")
+                    print(f"{pair_name}: Market closed")
             
             self.last_check_time[pair_name] = current_time
         
@@ -517,7 +517,7 @@ class TradingAlertSystem:
         if len(self.recent_alerts) > 50:
             self.recent_alerts = self.recent_alerts[-50:]
         
-        print(f"💾 Real alert stored: {signal['pair']} {signal['direction']} at {signal['entry_price']:.4f}")
+        print(f"Real alert stored: {signal['pair']} {signal['direction']} at {signal['entry_price']:.4f}")
     
     def get_dashboard_data(self) -> Dict:
         """Get data for web dashboard"""
@@ -534,18 +534,18 @@ class TradingAlertSystem:
     def send_mobile_notification(self, signal: Dict) -> bool:
         """Send push notification to mobile devices via Pushover"""
         if not self.push_api_key or not self.user_tokens:
-            print(f"📱 Alert ready: {signal['pair']} {signal['direction']} - Configure Pushover for mobile notifications")
+            print(f"Alert ready: {signal['pair']} {signal['direction']} - Configure Pushover for mobile notifications")
             return False
             
         try:
             import requests
             
-            message = f"🚨 {signal['pair']} {signal['direction']}\n"
-            message += f"💰 Entry: {signal['entry_price']:.4f}\n"
-            message += f"🎯 Target: {signal['target_profit']:.4f}\n"
-            message += f"🛡️ Stop: {signal['stop_loss']:.4f}\n"
-            message += f"📊 Confidence: {signal['confidence']}\n"
-            message += f"⚠️ Risk: {signal['risk_level']}"
+            message = f"{signal['pair']} {signal['direction']}\n"
+            message += f"Entry: {signal['entry_price']:.4f}\n"
+            message += f"Target: {signal['target_profit']:.4f}\n"
+            message += f"Stop: {signal['stop_loss']:.4f}\n"
+            message += f"Confidence: {signal['confidence']}\n"
+            message += f"Risk: {signal['risk_level']}"
             
             for user_token in self.user_tokens:
                 response = requests.post("https://api.pushover.net/1/messages.json", data={
@@ -558,19 +558,19 @@ class TradingAlertSystem:
                 })
                 
                 if response.status_code == 200:
-                    print(f"📱 Mobile notification sent: {signal['pair']} {signal['direction']}")
+                    print(f"Mobile notification sent: {signal['pair']} {signal['direction']}")
                     return True
                 else:
-                    print(f"❌ Failed to send notification: {response.text}")
+                    print(f"Failed to send notification: {response.text}")
                     return False
                     
         except Exception as e:
-            print(f"❌ Notification error: {e}")
+            print(f"Notification error: {e}")
             return False
     
     def configure_pushover(self, api_key: str, user_tokens: List[str]):
         """Configure Pushover settings"""
         self.push_api_key = api_key
         self.user_tokens = user_tokens if isinstance(user_tokens, list) else [user_tokens]
-        print(f"✅ Pushover configured for {len(self.user_tokens)} device(s)")
+        print(f"Pushover configured for {len(self.user_tokens)} device(s)")
         return True

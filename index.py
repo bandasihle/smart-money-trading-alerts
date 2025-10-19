@@ -22,7 +22,7 @@ def get_real_market_data():
             'CADCHF=X': 'CADCHF'
         }
         
-        print("🚀 Fetching REAL forex data from yfinance...")
+        print("Fetching REAL forex data from yfinance...")
         for symbol, name in forex_symbols.items():
             try:
                 ticker = yf.Ticker(symbol)
@@ -30,19 +30,19 @@ def get_real_market_data():
                 if len(data) > 0:
                     price = data['Close'].iloc[-1]
                     market_data[name] = price
-                    print(f"✅ {name}: {price:.4f}")
+                    print(f"{name}: {price:.4f}")
                 else:
-                    print(f"⚠️ {name}: No data")
+                    print(f"{name}: No data")
                 time.sleep(0.5)  # Small delay to avoid rate limits
             except Exception as e:
-                print(f"❌ {name}: {e}")
+                print(f"{name}: {e}")
         
         # Direct index symbols from yfinance (REAL INDEX VALUES!)
         index_symbols = {
             '^DJI': 'US30'        # Dow Jones Industrial - ACTUAL INDEX
         }
         
-        print("🚀 Fetching REAL index values directly from yfinance...")
+        print("Fetching REAL index values directly from yfinance...")
         for symbol, name in index_symbols.items():
             try:
                 ticker = yf.Ticker(symbol)
@@ -50,12 +50,12 @@ def get_real_market_data():
                 if len(data) > 0:
                     price = data['Close'].iloc[-1]
                     market_data[name] = price
-                    print(f"✅ {name}: {price:.2f}")
+                    print(f"{name}: {price:.2f}")
                 else:
-                    print(f"⚠️ {name}: No data")
+                    print(f"{name}: No data")
                 time.sleep(0.5)  # Small delay
             except Exception as e:
-                print(f"❌ {name}: {e}")
+                print(f"{name}: {e}")
         
         # Fallback values only if yfinance completely fails
         fallbacks = {
