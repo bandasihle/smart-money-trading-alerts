@@ -536,7 +536,6 @@ class TradingAlertSystem:
         if not self.push_api_key or not self.user_tokens:
             print(f"Alert ready: {signal['pair']} {signal['direction']} - Configure Pushover for mobile notifications")
             return False
-            
         try:
             import requests
             
@@ -546,6 +545,8 @@ class TradingAlertSystem:
             message += f"Stop: {signal['stop_loss']:.4f}\n"
             message += f"Confidence: {signal['confidence']}\n"
             message += f"Risk: {signal['risk_level']}"
+
+            
             
             for user_token in self.user_tokens:
                 response = requests.post("https://api.pushover.net/1/messages.json", data={
