@@ -1,3 +1,26 @@
+# =====================================================
+# Smart Money Trading Alerts - Dependencies
+# =====================================================
+
+# Web Framework
 flask==2.3.3
-requests==2.31.0
+flask-cors==4.0.0
+gunicorn==21.2.0
+Werkzeug>=2.3.0
+
+# Data & Analysis
+pandas==2.0.3
+numpy==1.24.3
 yfinance==0.2.66
+
+# HTTP & API
+requests==2.31.0
+
+# Configuration & Environment
+python-dotenv==1.0.0
+
+# Timezone
+pytz==2023.3
+
+# Type checking support
+typing-extensions>=4.0.0
